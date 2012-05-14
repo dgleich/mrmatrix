@@ -1,0 +1,61 @@
+Configuration:
+
+$ sudo apt-get install python-virtualenv
+$ sudo apt-get install python-dev
+$ sudo apt-get install python-scipy
+$ sudo apt-get install libatlas3gf-base # fast linear algebra!
+$ sudo apt-get install git-core
+$ sudo apt-get install geany # my preferred text editor
+
+Create a new virtual environment for working with Hadoop
+
+$ virtualenv hadoop
+
+Activate it.
+
+$ source ~/hadoop/bin/activate
+
+Install typedbytes and ctypedbytes.
+
+(hadoop)$ pip install ctypedbytes
+
+Install dumbo
+
+(hadoop)$ cd ~; mkdir hadoop-python; cd hadoop-python
+(hadoop)$ git clone https://github.com/klbostee/dumbo.git
+
+(make one little edit)
+
+[dgleich@icme-hadoop1 dumbo]$ git diff
+diff --git a/dumbo/backends/streaming.py b/dumbo/backends/streaming.py
+index 482e53b..e5cac01 100644
+--- a/dumbo/backends/streaming.py
++++ b/dumbo/backends/streaming.py
+@@ -76,7 +76,7 @@ class StreamingIteration(Iteration):
+         if modpath.endswith('.egg'):
+             addedopts.add('libegg', modpath)
+         else:
+-            opts.add('file', modpath)
++            opts.add('file', 'file://' + modpath)
+         opts.add('jobconf', 'stream.map.input=typedbytes')
+         opts.add('jobconf', 'stream.reduce.input=typedbytes')
+
+
+(hadoop)$ 
+(hadoop)$ cd dumbo; python setup.py test # make sure everything tests
+(hadoop)$ python setup.py install
+
+Setup .dumborc
+
+Here's mine...
+
+(hadoop)$ echo """[common]
+hadoop: icme-hadoop1
+
+[hadoops]
+icme-hadoop1: /usr/lib/hadoop-0.20/""" > ~/.dumborc
+
+
+
+
+

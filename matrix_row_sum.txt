@@ -1,0 +1,22 @@
+Let's do something with a matrix.
+
+git clone http://
+
+(hadoop)$ cd ~; mkdir mrmatrix; cd mrmatrix; mkdir data
+(hadoop)$ python data/make_test_data.py 50 10 > data/tinymat.txt
+
+Copy the data to hadoop
+s
+(hadoop)$ fs -put data/tinymat.txt data-tut/tinymat.txt
+
+Run a row sum with dumbo
+
+(hadoop)$ dumbo start codes/row_sum.py -input data-tut/tinymat.txt -output data-tut/tinymat.sums 
+
+Look at the output
+
+(hadoop)$ dumbo cat data-tut/tinymat.sums/part-*
+
+Compare it to just doing sums ourselves
+
+(hadoop)$ python 
