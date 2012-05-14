@@ -1,0 +1,44 @@
+Run a column sum with dumbo
+
+(hadoop)$ dumbo start codes/col_sum.py -input data-tut/tinymat.txt -output data-tut/tinymat.colsums 
+
+Look at the output
+
+(hadoop)$ dumbo cat data-tut/tinymat.colsums/part-*
+
+Compare it to just doing sums ourselves
+
+(hadoop)$ python codes/col_sum_test.py < data/tinymat.txt
+
+
+Using a combiner
+----------------
+
+(hadoop)$ dumbo start codes/col_sum_combine.py -input data-tut/tinymat.txt -output data-tut/tinymat.colsums 
+
+It fails because we already have that output. This feature is a
+precaution the hadoop framework places against accidentally
+overwriting terabytes of data.
+
+(hadoop)$ dumbo start codes/col_sum_combine.py -input data-tut/tinymat.txt -output data-tut/tinymat.colsums2 
+
+(hadoop)$ dumbo cat data-tut/tinymat.colsums2/part-*
+
+
+Multiple reducers
+-----------------
+
+What are these "part" files?
+
+(hadoop)$ hadoop fs -ls data-tut/tinymat.colsums
+(hadoop)$ hadoop fs -ls data-tut/tinymat.colsums2
+
+Each "part" file is the output from a single reducer. These 
+become one file after we concatenate them.
+
+(hadoop)$ dumbo start codes/col_sum.py -input data-tut/tinymat.txt -output data-tut/tinymat.colsums3 -numreducetasks 3
+
+(hadoop)$ hadoop fs -ls data-tut/tinymat.colsums3
+(hadoop)$ dumbo cat data-tut/tinymat.colsums3/part-*
+
+dumbo 

@@ -6,7 +6,7 @@ git clone http://
 (hadoop)$ python data/make_test_data.py 50 10 > data/tinymat.txt
 
 Copy the data to hadoop
-s
+
 (hadoop)$ fs -put data/tinymat.txt data-tut/tinymat.txt
 
 Run a row sum with dumbo
@@ -19,4 +19,5 @@ Look at the output
 
 Compare it to just doing sums ourselves
 
-(hadoop)$ python 
+(hadoop)$ python codes/row_sum_test.py < data/tinymat.txt
+
