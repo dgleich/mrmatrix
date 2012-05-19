@@ -1,0 +1,1 @@
+dumbo start join-An1-and-U.py -matAn /user/sayadi/snaps.an.mseq -matU /user/dgleich/snaps.an1.svd-U.mseq -reduce_schedule 36,1 -output /user/dgleich/snaps-UtAn.mseq
